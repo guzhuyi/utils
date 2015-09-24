@@ -1,0 +1,170 @@
+http://www.oschina.net/question/28_46196
+
+jQuery 是一个非常棒的类库，但是为了保证代码的干净以及代码的精简，它只提供最核心的功能。所以就有了很多其他的工具来丰富jQuery的功能。我在使用这些工具的时候发现我常常重复的编写一些代码，所以我就开始把它们整理到一个类库中。我把这些代码都包装成了jQuery的代码，但这并不是必须的，你也可以在其他JS类库中使用他们，或者单独使用。 
+
+你可以在 这里下载这个类库。 
+
+jQuery.postJSON() 
+我不明白为何 jQuery 没有把这个方法加进去，虽然他们有 $.getJSON 方法。 
+?
+1
+2
+3
+4
+5
+$.postJSON(
+    "/put/path/here",
+    {val1: "Cheetos", val2: "Nachos"},
+    function(response){ //on success do something }
+);
+jQuery.stop() 
+这个方法是用来停止事件传递的。它接受两个参数，preventDefault 和 stopPropgation。 
+?
+1
+2
+3
+4
+5
+6
+$.stop(event, preventDefault, stopPropagation);
+ 
+$("#container").click(function(e)
+{
+    $.stop(e, true, true);   
+});
+jQuery.shuffleArray() 
+这个我用的不多，但是很好用，它可以随机的打乱一个数组。 
+?
+1
+$.shuffleArray([1,2,3,4,5,6,7]); //potential output: [1,3,5,7,2,4,6]
+jQuery.reload() 
+这个函数就是“window.location.reload(true)”的缩写。 
+?
+1
+$.reload();
+jQuery.uri() 
+这个函数可以解析 URL 的 URI 部分，可以通过 index 的方式访问，从1开始。 
+?
+1
+2
+3
+4
+http://www.domain.com/this/domain/rocks
+    
+$.uri(1); //will output this
+$.uri(3); //will output rocks
+jQuery.URLParams() 
+这个函数我起码写过100遍。 
+?
+1
+2
+3
+4
+http://www.domain.com/this/domain/rocks?param=fantastic&test=awesome#websanova
+ 
+$.URLParams(); // {param: 'fantastic', test: 'awesome'}
+$.URLParams('test'); // awesome
+jQuery.URLHash() 
+这个函数类似 URLParams，但是它返回的是 URL 中的 “#” 部分，如果有的话。 
+?
+1
+2
+3
+http://www.domain.com/this/domain/rocks?param=fantastic&test=awesome#websanova
+ 
+$.URLHash(); // websanova
+jQuery.hexToRGB() 
+这个函数也很好用，它接受一个十六进制的数字，或者RGB字符串，相互转换，非法数据会返回 false。 
+?
+1
+2
+3
+4
+5
+6
+7
+8
+$.hexToRGB("#FF3388"); // rgb(255,51,136)
+$.hexToRGB("#F38");    // rgb(255,51,136)
+$.hexToRGB("#ZZ3388"); // false
+$.hexToRGB("F38A");    // false
+ 
+$.hexToRGB("rgb(22,67,234)"); // #1643EA
+$.hexToRGB("rgb(22,67,274)"); // false
+$.hexToRGB("rgb(22,67)");     // false
+jQuery.base64Encode() 
+将 UTF-8 的字符串用 base64 编码。 
+?
+1
+$.base64Encode("encode this string"); // ZW5jb2RlIHRoaXMgc3RyaW5n
+jQuery.base64Decode() 
+base64 解码，同样也是 UTF-8 编码。 
+?
+1
+$.base64Decode("ZW5jb2RlIHRoaXMgc3RyaW5n"); // encode this string
+jQuery.utf8Encode() 
+将 String 转换成 UTF-8 编码的，主要用于上面提到的 base64Encode 函数。 
+?
+1
+$.utf8Encode("utf8 encode this");
+jQuery.utf8Decode() 
+UTF-8 解码。 
+?
+1
+$.utf8Decode("utf8 encode this");
+.removeClassRegEx() 
+这个方法真是太好用了，可以移除指定元素的指定 class。 
+?
+1
+2
+3
+4
+5
+6
+<div class="test testing leavemealone hellotest Tester"></div>
+ 
+$("#container").removeClassRegEx(/test/i);  //class="leavemealone"
+$("#container").removeClassRegEx(/test/);   //class="leavemealone Tester"
+$("#container").removeClassRegEx(/^test/i); //class="leavemealone hellotest"
+$("#container").removeClassRegEx(/test$/);  //class="testing leavemealone Tester"
+.hasClassRegEx() 
+和 removeClassRegEx 类似，这个方法检查指定元素是否有指定的 class。 
+?
+1
+2
+3
+4
+5
+6
+7
+<div class="test testing leavemealone hellotest Tester"></div>
+ 
+$("#container").removeClassRegEx(/test/i);    // true
+$("#container").removeClassRegEx(/test/);     // true
+$("#container").removeClassRegEx(/^test/i);   // true
+$("#container").removeClassRegEx(/test$/);    // true
+$("#container").removeClassRegEx(/^testy$/);  // false
+.maxChars() 
+这个函数对那些没有“maxlength”属性的input元素就很有用。它也可以指定一个元素来显示剩余字符。 
+?
+1
+2
+$("input").maxChars(50);
+$("input").maxChars(50, $("#maxChars_counter"));
+Object.sizeof() 
+这个方法是 JavaScript 的一个扩展，可以让你获取对象的长度。 
+?
+1
+{cow: "moo", duck: "quack"}.sizeof(); // 2
+String.capitalize() 
+这是 String 对象的一个扩展，可以把一个字符串变成大写的。 
+?
+1
+"test".capitalize(); // Test
+String.pxToInt() 
+这个方法用了很多，特别是在我返回一个 CSS 属性的时候，我希望得到一个整数。 
+?
+1
+2
+"210px".pxToInt(); //210
+$("container").css('height').pxToInt(); // 400
